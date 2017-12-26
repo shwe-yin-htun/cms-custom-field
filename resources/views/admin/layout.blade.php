@@ -29,8 +29,7 @@
     <link rel="icon" href="{{ asset('images/demo/logo.jpeg') }}" type="image/jpeg">
 
     <script src="{{ asset('assets/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/custom_field/acf.js') }}"></script>
-    <script src="{{ asset('js/custom_field/cf_detail.js') }}"></script>
+    <script src="{{ asset('js/custom_field.js') }}"></script>
 
     <!-- ### link summernote for text editor### -->
     <link href="{{ asset('summernote/dist/summernote.css') }}" rel="stylesheet">

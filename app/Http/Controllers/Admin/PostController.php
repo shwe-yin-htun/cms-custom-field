@@ -55,7 +55,10 @@ class PostController extends Controller
     }
 
     public function store(Request $request){
-
+        $get_cf_name=(isset($request['cf_detail_name']) ? $request['cf_detail_name']  : "");
+        $get_cf_type=(isset($request['cf_detail_type']) ? $request['cf_detail_type']  : "");
+        $get_cf_value=(isset($request['cf_detail_value']) ? $request['cf_detail_value']  : "");
+        $get_cf_file=(isset($request['cf_file']) ? $request['cf_file']  : "");
         // 'title', 'main_category_id', 'sub_category_id', 'short_description', 'feature_photo', 'detail_description', 'detail_photo', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5'
 
         $validator = Validator::make($request->all(), [
@@ -127,9 +130,78 @@ class PostController extends Controller
                 'custom_field5' => ($request->custom_field5)? $request->custom_field5 : '',
             ];
 
-        $res=Post::create($arr);
+            $post_id=Post::insertGetId($arr);
+
+            $group['cfl_group_id']=$request['acf_group'];
+            $group['post_id']=$post_id;
+
+            // get acf_list_value
+            if ($request['acf_group']!=0)
+            {
+                 $group['cf_value1']=($data->hasFile('cf_value1'))
+                       ? PostController::img_name($data['cf_value1'])
+                       : $data['cf_value1'];
+
+                 $group['cf_value2']=($data->hasFile('cf_value2'))
+                      ? PostController::img_name($data->cf_value2)
+                      :$data['cf_value2'];
+
+                 $group['cf_value3']=($data->hasFile('cf_value3'))
+                      ? $group['cf_value3']= PostController::img_name($data->cf_value3)
+                      : $data['cf_value3'];
+
+                 $group['cf_value4']=($data->hasFile('cf_value4'))
+                        ? PostController::img_name($data->cf_value4)
+                        : $data['cf_value4'];
+
+                 $group['cf_value5']=($data->hasFile('cf_value5'))
+                        ? PostController::img_name($data->cf_value5)
+                        : $data['cf_value5'];
+                 //dd($group);
+                 CustomFieldValue::insert($group);
+          }
+
+          if ($get_cf_type!="")
+          {
+                for ($i=0; $i <count($get_cf_type) ; $i++) {
+                       $details['post_id']=$post_id;
+                       $details['cf_name']=$get_cf_name[$i];
+                       $details['cf_type']=$get_cf_type[$i];
+
+                       if ($get_cf_type[$i]==4) {
+                            $file = current($get_cf_file);
+                            $photo=PostController::img_name($file);
+
+                            $details['cf_value']=$photo;
+
+                            array_shift($get_cf_file);
+                       }
+
+                       else {
+                               $value = current($get_cf_value);
+                               $details['cf_value']=$value;
+                               array_shift($get_cf_value);
+                       }
+
+                       $post_details[]=$details;
+                }
+
+                CustomFieldDetail::insert($post_details);
+            }
 
         return redirect()->route('admin.post');
+    }
+
+    function img_name($file)
+    {
+         $fileName = $file->getClientOriginalName();
+         $destinationPath = "images/";
+
+          if($fileName) {
+               $file->move($destinationPath, $fileName);
+           }
+
+          return $fileName;
     }
 
     //update post by ASO

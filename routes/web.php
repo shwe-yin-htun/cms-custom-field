@@ -16,29 +16,26 @@ Route::group(['prefix' => 'admin'], function(){
 	Auth::routes();
 	Route::group(['namespace' => 'Admin', 'middleware' => 'IsAdmin'], function(){
 
-		//routes for custom_fields
+		// Route for custom_field
 		Route::get('/custom_field', ['as' => 'admin.custom_field', 'uses' => 'CustomFieldController@group_list']);
 
-		Route::get('/custom_field/g_view/{id}',['as' => 'admin.custom_field.g_view', 'uses' => 'CustomFieldController@g_view']);
+		Route::get('/custom_field/add_new', ['as' => 'admin.custom_field.add_new', 'uses' => 'CustomFieldController@add_new']);
 
-		Route::get('custom_field/g_edit/{id}',['as' => 'admin.custom_field.g_edit', 'uses' => 'CustomFieldController@g_edit']);
+		Route::post('/custom_field/create', ['as' => 'admin.custom_field.create', 'uses' => 'CustomFieldController@create']);
 
-		Route::post('custom_field/g_update/{id}',['as' => 'admin.custom_field.g_update', 'uses' => 'CustomFieldController@g_update']);
+		Route::get('/custom_field/g_view/{id}', ['as' => 'admin.custom_field.g_view', 'uses' => 'CustomFieldController@g_view']);
 
-		Route::get('custom_field/g_delete/{id}',['as' => 'admin.custom_field.g_delete', 'uses' => 'CustomFieldController@g_delete']);
+		Route::get('/custom_field/g_edit/{id}', ['as' => 'admin.custom_field.g_edit', 'uses' => 'CustomFieldController@g_edit']);
 
-		Route::get('/custom_field/add_new',['as' => 'admin.custom_field.add_new', 'uses' => 'CustomFieldController@add_new']);
+		Route::post('/custom_field/g_update/{id}', ['as' => 'admin.custom_field.g_update', 'uses' => 'CustomFieldController@g_update']);
 
-		Route::get('custom_field/add_group',['as' => 'admin.custom_field.add_group', 'uses' => 'CustomFieldController@add_group']);
+		Route::get('/custom_field/g_delete/{id}', ['as' => 'admin.custom_field.g_delete', 'uses' => 'CustomFieldController@g_delete']);
 
-		Route::post('custom_field/create',['as' => 'admin.custom_field.create', 'uses' => 'CustomFieldController@create']);
+		Route::get('/custom_field/get_acf_group/{id}', ['as' => 'admin.custom_field.get_acf_group', 'uses' => 'CustomFieldController@get_acf_group']);
 
-		Route::get('custom_field/get_acf_group/{id}',['as' => 'admin.custom_field.get_acf_group', 'uses' =>'CustomFieldController@get_acf_group']);
+		Route::get('/custom_field/add_acf_detail', ['as' => 'admin.custom_field.add_acf_detail', 'uses' => 'CustomFieldController@add_acf_detail']);
 
-		Route::get('custom_field/get_cf_detail_type/{id}',['as' => 'admin.custom_field.get_cf_detail_type', 'uses' =>'CustomFieldController@get_cf_detail_type']);
-
-		Route::get('custom_field/add_acf_detail',['as' => 'admin.custom_field.add_acf_detail', 'uses' =>'CustomFieldController@add_acf_detail']);
-
+################################################################################################################################################################
 		//Route::get('/', 'HomeController@index')->name('Admin Home');
 		Route::get('/', ['as' => 'admin.index', 'uses' => 'CategoryController@index']);
 

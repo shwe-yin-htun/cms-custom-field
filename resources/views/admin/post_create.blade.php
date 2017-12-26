@@ -129,37 +129,63 @@
                 </div>
 
 
-								<div class="form-group">
-										<label class="col-md-2 control-label"><h6>Coustom Field Lists :</h6></label>
+								<div class="form-group{{ $errors->has('acf_group') ? ' has-error' : '' }}">
+										<label class="col-md-2 control-label">Coustom Field Lists </label>
+
 										<div class="col-md-9">
 												<select class="form-control acf_group" name="acf_group">
-														 <option value="0">None</option>
-																 @foreach ($acf as $value)
-																			 <option value="{{$value->id}}">{{$value->group_name}}</option>
-																 @endforeach
-												</select><br>
-                    </div>
-												<div class="form-group acf_group_value">
+														<option value="0">None</option>
+																@foreach ($acf as $value)
+																			<option value="{{$value->id}}">{{$value->group_name}}</option>
+																@endforeach
+											 </select>
+												@if ($errors->has('acf_group'))
+														<span class="help-block">
+																<strong>{{ $errors->first('acf_group') }}</strong>
+														</span>
+												@endif
+
+												<div class="acf_group_value">
 
 												</div>
+										</div>
+
 								</div>
-									<hr>
-									<div class="form-group">
-											<label class="col-md-2 control-label"><h6>Custom Field Details</h6></label>
-											<div class="col-md-9">
-									        <table class="table myTable" style="display:none;">
-																<thead>
-																		<th>Custom Field Name</th>
-																		<th>Custom Field Type</th>
-																		<th>Custom Field value</th>
-																		<th></th>
-																</thead>
-																<tbody>
-																</tbody>
-														</table>
-									          <button type="button" class="btn btn-success add_acf_detail">Add Custom Field</button><br>
-                    </div>
-										<button type="button" class="btn btn-success">create</button><br>
+								<hr>
+
+								<div class="form-group{{ $errors->has('acf_group') ? ' has-error' : '' }}">
+									 <label class="col-md-2 control-label">Custom Field Details</label>
+
+									 <div class="col-md-9">
+												 <table class="table myTable" style="display:none;">
+														<thead>
+																<th>Custom Field Name</th>
+																<th>Custom Field Type</th>
+																<th>Custom Field value</th>
+																<th></th>
+														</thead>
+														<tbody>
+														</tbody>
+												</table>
+												<button type="button" class="btn btn-success add_acf_detail">Add Field</button><br>
+											 @if ($errors->has('acf_group'))
+													 <span class="help-block">
+															 <strong>{{ $errors->first('acf_group') }}</strong>
+													 </span>
+											 @endif
+									 </div>
+							 </div>
+							 <hr>
+
+
+								<div class="form-group">
+										<div class="col-md-6 col-md-offset-6">
+												<br>
+												<button type="submit" class="btn btn-primary">
+														Add
+												</button>
+										</div>
+								</div>
 
             </form>
 		</div>
